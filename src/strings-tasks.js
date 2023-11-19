@@ -475,8 +475,15 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ?!';
+  const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm ?!';
+  let res = '';
+  for (let i = 0; i < str.length; i += 1) {
+    const index = input.indexOf(str[i]);
+    res += output[index];
+  }
+  return res;
 }
 
 /**
@@ -503,8 +510,33 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let mast;
+  let num;
+  let res;
+  if (value[value.length - 1] === '♦') {
+    mast = 2;
+  } else if (value[value.length - 1] === '♥') {
+    mast = 3;
+  } else if (value[value.length - 1] === '♠') {
+    mast = 4;
+  } else mast = 1;
+
+  if (value[0] === 'A') {
+    num = 1;
+  } else if (value[0] === 'J') {
+    num = 11;
+  } else if (value[0] === 'Q') {
+    num = 12;
+  } else if (value[0] === 'K') {
+    num = 13;
+  } else num = +value.slice(0, value.length - 1);
+
+  if (mast === 1) res = num;
+  if (mast === 2) res = num + 13;
+  if (mast === 3) res = num + 13 * 2;
+  if (mast === 4) res = num + 13 * 3;
+  return res - 1;
 }
 
 module.exports = {
